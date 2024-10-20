@@ -1,3 +1,6 @@
+# src/pdfreader.py
+
+
 import os
 import PyPDF2
 import json
@@ -34,7 +37,9 @@ def extract_project_details_cr_pdf(text):
 
     response = client.generate(
         model='command-r-plus-08-2024',
-        prompt= prompt
+        prompt= prompt,
+        temperature=0.7,
+        max_tokens=1500
 
     )
     
@@ -68,7 +73,9 @@ def generate_numbered_todo_list_pdf(text):
 
     response = client.generate(
         model='command-r-plus-08-2024',
-        prompt=prompt
+        prompt=prompt,
+        temperature=0.7,
+        max_tokens=2000,
     )
 
     todo_list = response.generations[0].text.strip()

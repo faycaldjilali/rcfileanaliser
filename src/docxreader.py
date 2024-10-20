@@ -1,3 +1,7 @@
+# src/docxreader.py
+
+
+
 import os
 import docx
 import json
@@ -29,7 +33,9 @@ def extract_project_details_cr_dox(text):
 
     response = client.generate(
         model='command-r-plus-08-2024',
-        prompt=prompt
+        prompt=prompt,
+        temperature=0.7,
+        max_tokens=1500
                
     )
     
