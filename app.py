@@ -73,8 +73,8 @@ if uploaded_file is not None:
             data=rc_zip_buffer,
             file_name="rc_files.zip",
             mime="application/zip"   )
-            st.success("PDF and DOCX processing completed! JSON and CSV files are available for download.")
+            st.success("files processing completed! JSON and CSV files are available for download.")
         else:
-            st.warning("No PDF or DOCX files found in the RC Files directory.")
+            st.warning("No RC files found in the RC Files directory.")
 else:
     st.info("Please upload a ZIP file to begin processing.")

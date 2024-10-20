@@ -4,6 +4,8 @@ import json
 import csv
 import cohere
 import streamlit as st 
+from src.prompt1 import get_project_details_prompt
+
 # Initialize Cohere client
 cohere_client = cohere.Client('IdlHWXxZ6LEt90RvFKvXKv4CYzrR8BCQLq63yriI')
 
@@ -21,24 +23,11 @@ def extract_text_from_pdf(pdf_path):
 
 # Extract project details from CR text
 def extract_project_details_cr_pdf(text):
+    prompt = get_project_details_prompt(text)
+
     response = cohere_client.generate(
         model='command-r-plus-08-2024',
-        prompt= f"Extract following detailed information from the text:\n"
-               f"1. Nom du projet\n"
-               f"2. Numéro du RC\n"
-               f"3. Description\n"
-               f"4. Date limite de soumission\n"
-               f"5. Adresse\n"
-               f"6. Visites obligatoires \n"
-               f"7. Objet de la consultation  \n"
-               f"8. Votre lot :  \n"
-               f"9. Durée des marchés:\n"
-               f"10. Contact de l'acheteur (Nom, Titre, Téléphone, Courriel)\n"
-               f"11. Acheteur : \n\n"
-               f"Synthèse des éléments pertinents :\n"
-               f"2.Actions à prendre par SEF (Stores et Fermetures) :\n"
-               f"Extract the following detailed information from the text::\n"
-               f"Text:\n{text}",
+        prompt= prompt
 
     )
     
