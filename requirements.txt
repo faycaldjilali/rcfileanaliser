@@ -1,12 +1,12 @@
-PyPDF2
-cohere
-openpyxl
-python-dotenv
-python-docx
-streamlit
+# PyPDF2
+# cohere
+# openpyxl
+# python-dotenv
+# python-docx
+# streamlit
 
 
-
+.-e
 
 
 
