@@ -1,3 +1,6 @@
+-e .
+
+
 PyPDF2==3.0.1
 cohere==5.11.1
 openpyxl==3.1.5
@@ -7,7 +10,7 @@ streamlit==1.39.0
 openai
 
 
-.-e
+
 
 
 
