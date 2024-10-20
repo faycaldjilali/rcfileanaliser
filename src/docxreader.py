@@ -3,9 +3,16 @@ import docx
 import json
 import csv
 import cohere
+from dotenv import load_dotenv
 
-# Initialize the Coher client with your API key
-cohere_client = cohere.Client('IdlHWXxZ6LEt90RvFKvXKv4CYzrR8BCQLq63yriI')
+# Load environment variables from the .env file
+load_dotenv()
+
+# Get the API key from the environment variable
+COHERE_API_KEY = os.getenv('COHERE_API_KEY')
+
+# Initialize the Cohere client with the hidden API key
+cohere_client = cohere.Client(COHERE_API_KEY)
 def extract_text_from_docx(docx_path):
     try:
         doc = docx.Document(docx_path)

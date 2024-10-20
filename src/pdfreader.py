@@ -4,12 +4,17 @@ import json
 import csv
 import cohere
 import streamlit as st 
-from rcfileanaliser.src.prompt import get_project_details_prompt1
 from src.prompt import prompt1 , prompt2
+from dotenv import load_dotenv
 
+# Load environment variables from the .env file
+load_dotenv()
 
-# Initialize Cohere client
-cohere_client = cohere.Client('IdlHWXxZ6LEt90RvFKvXKv4CYzrR8BCQLq63yriI')
+# Get the API key from the environment variable
+COHERE_API_KEY = os.getenv('COHERE_API_KEY')
+
+# Initialize the Cohere client with the hidden API key
+cohere_client = cohere.Client(COHERE_API_KEY)
 
 # Extract text from PDF
 def extract_text_from_pdf(pdf_path):
@@ -25,11 +30,11 @@ def extract_text_from_pdf(pdf_path):
 
 # Extract project details from CR text
 def extract_project_details_cr_pdf(text):
-    prompt1 = prompt1(text)
+    prompt = prompt1(text)
 
     response = cohere_client.generate(
         model='command-r-plus-08-2024',
-        prompt= prompt1
+        prompt= prompt
 
     )
     
@@ -59,11 +64,11 @@ def save_json_to_file(data, pdf_path):
 
 # Generate numbered To-Do list
 def generate_numbered_todo_list_pdf(text):
-    prompt2 = prompt2(text)
+    prompt = prompt2(text)
 
     response = cohere_client.generate(
         model='command-r-plus-08-2024',
-        prompt=prompt2
+        prompt=prompt
     )
 
     todo_list = response.generations[0].text.strip()
