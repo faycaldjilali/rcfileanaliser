@@ -2,8 +2,11 @@ import os
 import docx
 import json
 import csv
+from src.prompt import prompt1 , prompt2
+
 import cohere
 from dotenv import load_dotenv
+
 
 # Load environment variables from the .env file
 load_dotenv()
@@ -12,7 +15,7 @@ load_dotenv()
 COHERE_API_KEY = os.getenv('COHERE_API_KEY')
 
 # Initialize the Cohere client with the hidden API key
-cohere_client = cohere.Client(COHERE_API_KEY)
+client = cohere.Client(COHERE_API_KEY)
 def extract_text_from_docx(docx_path):
     try:
         doc = docx.Document(docx_path)
@@ -22,24 +25,11 @@ def extract_text_from_docx(docx_path):
         return f"An error occurred: {e}"
 
 def extract_project_details_cr_dox(text):
-    response = cohere_client.generate(
+    prompt = prompt1(text)
+
+    response = client.generate(
         model='command-r-plus-08-2024',
-        prompt=f"Extract following detailed information from the text:\n"
-               f"Synthèse des éléments pertinents:\n"
-               f"2. Actions à prendre par SEF (Stores et Fermetures):\n"
-               f"Extract the following detailed information from the text:\n"
-               f"1. Nom du projet\n"
-               f"2. Numéro du RC\n"
-               f"3. Description\n"
-               f"4. Date limite de soumission\n"
-               f"5. Adresse\n"
-               f"6. Visites obligatoires\n"
-               f"7. Objet de la consultation\n"
-               f"8. Votre lot:\n"
-               f"9. Durée des marchés:\n"
-               f"10. Contact de l'acheteur (Nom, Titre, Téléphone, Courriel)\n"
-               f"11. Acheteur:\n\n"
-               f"Text:\n{text}"
+        prompt=prompt
                
     )
     
@@ -69,9 +59,10 @@ def save_json_to_file(data, docx_path, suffix='_cr_synthes.json'):
     return json_path
 
 def generate_numbered_todo_list_docx(text):
-    response = cohere_client.generate(
+    prompt = prompt2(text)
+    response = client.generate(
         model='command-r-plus-08-2024',
-        prompt=f'From the following text, generate a numbered list of To-Do items:\n\nText:\n{text}\n\nTo-Do List:\n1. ',
+        prompt=prompt ,
         temperature=0.7,
         max_tokens=1500
     )

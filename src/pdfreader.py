@@ -14,7 +14,7 @@ load_dotenv()
 COHERE_API_KEY = os.getenv('COHERE_API_KEY')
 
 # Initialize the Cohere client with the hidden API key
-cohere_client = cohere.Client(COHERE_API_KEY)
+client = cohere.Client(COHERE_API_KEY)
 
 # Extract text from PDF
 def extract_text_from_pdf(pdf_path):
@@ -32,7 +32,7 @@ def extract_text_from_pdf(pdf_path):
 def extract_project_details_cr_pdf(text):
     prompt = prompt1(text)
 
-    response = cohere_client.generate(
+    response = client.generate(
         model='command-r-plus-08-2024',
         prompt= prompt
 
@@ -66,7 +66,7 @@ def save_json_to_file(data, pdf_path):
 def generate_numbered_todo_list_pdf(text):
     prompt = prompt2(text)
 
-    response = cohere_client.generate(
+    response = client.generate(
         model='command-r-plus-08-2024',
         prompt=prompt
     )
