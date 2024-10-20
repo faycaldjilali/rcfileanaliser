@@ -1,9 +1,10 @@
-# PyPDF2
-# cohere
-# openpyxl
-# python-dotenv
-# python-docx
-# streamlit
+PyPDF2==3.0.1
+cohere==5.11.1
+openpyxl==3.1.5
+python-dotenv==1.0.1
+python-docx==1.1.2
+streamlit==1.39.0
+openai
 
 
 .-e
