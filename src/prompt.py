@@ -1,4 +1,4 @@
-def get_project_details_prompt(text):
+def prompt1(text):
     return (
         f"Extract the following detailed information from the text:\n"
         f"1. Nom du projet\n"
@@ -15,4 +15,11 @@ def get_project_details_prompt(text):
         f"Synthèse des éléments pertinents :\n"
         f"Actions à prendre par SEF (Stores et Fermetures):\n"
         f"\nText:\n{text}"
+    )
+
+
+
+def prompt2(text):
+    return (
+f'From the following text, generate a numbered list of To-Do items:\n\nText:\n{text}\n\nTo-Do List:\n1. '
     )
