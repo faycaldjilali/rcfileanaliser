@@ -1,3 +1,6 @@
+# src/prompt.py
+
+
 def prompt1(text):
     return (
         f"Extract the following detailed information from the text:\n"

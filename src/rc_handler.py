@@ -1,4 +1,4 @@
-# src/rc_files.py
+# src/rc_handler.py
 
 import os
 import shutil
