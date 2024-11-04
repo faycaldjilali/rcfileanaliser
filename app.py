@@ -5,6 +5,10 @@ from src.rc_handler import copy_r_files, copy_rc_files, create_zip_from_folder
 from src.pdfreader import process_all_pdfs_in_folder
 from src.rc_handler import delete_files_with_same_size
 from src.docxreader import process_all_docx_in_folder
+from src.db import create_db_from_json_files
+from src.dbtopdf import generate_project_fiche  # Import the function to generate PDFs
+import shutil
+
 # Streamlit Interface for uploading ZIP files
 st.title("ZIP File Processor")
 
@@ -44,7 +48,6 @@ if uploaded_file is not None:
 
     # Create ZIP files for download
     unzip_zip_buffer = create_zip_from_folder(unzip_file_location)
-    
 
     st.download_button(
         label="Download Unzipped Files",
@@ -52,8 +55,6 @@ if uploaded_file is not None:
         file_name="unzipped_files.zip",
         mime="application/zip"
     )
-
-
 
     if st.button("Process RC Files"):
         if os.listdir(rc_file_location):
@@ -64,16 +65,23 @@ if uploaded_file is not None:
             csv_files = [f for f in os.listdir(rc_file_location) if f.endswith('_pdf_todo_list.csv')]
             
             process_all_docx_in_folder(rc_file_location)
-            json_files = [f for f in os.listdir(rc_file_location) if f.endswith('_docx_cr_synthes.json')]
-            csv_files = [f for f in os.listdir(rc_file_location) if f.endswith('_docx_todo_list.csv')]
+            json_files += [f for f in os.listdir(rc_file_location) if f.endswith('_docx_cr_synthes.json')]
+            csv_files += [f for f in os.listdir(rc_file_location) if f.endswith('_docx_todo_list.csv')]
 
+            # Create database from JSON files
+            create_db_from_json_files(rc_file_location)
+            db_path = os.path.join(rc_file_location, 'example.db')
+            generate_project_fiche(db_path, rc_file_location)
+            # Generate project fiches (PDFs) from the database
+            # Create a ZIP file for RC files including the database
             rc_zip_buffer = create_zip_from_folder(rc_file_location) 
             st.download_button(
-            label="Download RC Files",
-            data=rc_zip_buffer,
-            file_name="rc_files.zip",
-            mime="application/zip"   )
-            st.success("files processing completed! JSON and CSV files are available for download.")
+                label="Download RC Files",
+                data=rc_zip_buffer,
+                file_name="rc_files.zip",
+                mime="application/zip"
+            )
+            st.success("Files processing completed! JSON, CSV files, and the database are available for download.")
         else:
             st.warning("No RC files found in the RC Files directory.")
 else:
