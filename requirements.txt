@@ -9,7 +9,7 @@ streamlit
 openai
 reportlab
 setuptools
-
+python3-distutils
 
 
 
