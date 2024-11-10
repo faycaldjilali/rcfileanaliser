@@ -5,7 +5,7 @@ from src.rc_handler import copy_r_files, copy_rc_files, create_zip_from_folder ,
 from src.pdfreader import process_all_pdfs_in_folder
 from src.rc_handler import delete_files_with_same_size
 from src.docxreader import process_all_docx_in_folder
-from l.rcfileanaliser.src.db import create_db_from_json_files
+from src.db import create_db_from_json_files
 from src.dbtopdf import generate_project_fiche  # Import the function to generate PDFs
 from src.docx import process_single_docx
 from src.pdf import process_single_pdf
