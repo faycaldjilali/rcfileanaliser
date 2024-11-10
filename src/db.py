@@ -5,13 +5,13 @@ import sqlite3
 import json
 import os
 import glob
-def create_db_from_json_files(folder_path):
+def create_db_from_json_files(folder_path,db_file):
 
     # Path to the folder containing JSON files
     # Replace with your folder path
 
     # Define the path to save the database file in the same folder
-    db_path = os.path.join(folder_path, 'example.db')
+    db_path = os.path.join(folder_path, db_file)
 
     # Connect to SQLite database (or create it)
     conn = sqlite3.connect(db_path)
