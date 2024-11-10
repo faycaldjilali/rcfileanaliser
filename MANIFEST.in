@@ -1,0 +1,11 @@
+include README.md
+include requirements.txt
+include setup.py
+include app.py
+recursive-include src *
+recursive-include src/utils *
+recursive-include src/models *
+recursive-include src/data *
+global-exclude *.pyc
+global-exclude __pycache__
+global-exclude *.py[cod]
