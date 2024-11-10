@@ -52,7 +52,36 @@ def delete_files_with_same_size(directory):
         except Exception as e:
             print(f"Error deleting file {file_path}: {e}")
             
-            
+
+
+def move_files(source_folder, destination_folder):
+    """
+    Moves all files from the source folder to the destination folder.
+    
+    Args:
+    - source_folder (str): The path of the folder to move files from.
+    - destination_folder (str): The path of the folder to move files to.
+    """
+    # Create the destination folder if it does not exist
+    if not os.path.exists(destination_folder):
+        os.makedirs(destination_folder)
+
+    # Loop through each file in the source folder
+    for filename in os.listdir(source_folder):
+        source_path = os.path.join(source_folder, filename)
+        destination_path = os.path.join(destination_folder, filename)
+
+        # Move the file to the destination folder
+        shutil.move(source_path, destination_path)
+
+    print(f"Files have been moved from '{source_folder}' to '{destination_folder}'")
+
+
+
+    
+    # Call the move_files function
+
+
 def create_zip_from_folder(folder_path):
     buffer = io.BytesIO()
     with zipfile.ZipFile(buffer, 'w', zipfile.ZIP_DEFLATED) as zip_file:

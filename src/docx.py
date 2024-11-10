@@ -99,37 +99,27 @@ def save_numbered_todo_list_to_csv(todo_list, docx_path):
     return csv_path
 
 
+# Single DOCX processing function
+def process_single_docx(docx_path):
+    # Extract text from the uploaded DOCX file
+    docx_text = extract_text_from_docx(docx_path)
 
+    # Extract CR project details and save as JSON
+    cr_details = extract_project_details_cr_dox(docx_text)
+    cr_json_path = save_json_to_file(cr_details, docx_path)
+    st.write(f"CR details saved to {cr_json_path}")
 
+    # Generate To-Do list and save as CSV
+    todo_list = generate_numbered_todo_list_docx(docx_text)
+    csv_path = save_numbered_todo_list_to_csv(todo_list, docx_path)
+    st.write(f"To-Do list saved to {csv_path}")
 
-def process_all_docx_in_folder(folder_path):
-    for file_name in os.listdir(folder_path):
-        if file_name.lower().endswith('.docx'):
-            docx_path = os.path.join(folder_path, file_name)
-            docx_text = extract_text_from_docx(docx_path)
+    # Display extracted data and To-Do list in the UI
+    st.subheader("Extracted Project Details")
+    st.json(cr_details)
 
-            # Extract CR details and save to JSON
-            cr_details = extract_project_details_cr_dox(docx_text)
-            cr_json_path = save_json_to_file(cr_details, docx_path)
-            print(f"CR details saved to {cr_json_path}")
+    st.subheader("Generated To-Do List")
+    st.write("\n".join(todo_list))
 
-            # Generate and save To-Do list
-            todo_list = generate_numbered_todo_list_docx(docx_text)
-            csv_path = save_numbered_todo_list_to_csv(todo_list, docx_path)
-            print(f"To-Do list saved to {csv_path}")
-                            # Optionally display the extracted data and To-Do list in the UI
-            st.subheader(f"Extracted Details from {file_name}")
-            st.json(cr_details)
-
-            st.subheader(f"Generated To-Do List from {file_name}")
-            st.write("\n".join(todo_list))
-            
-
-
-
-
-
-
-
-
-
+    # Return paths of saved files for download
+    return cr_json_path, csv_path

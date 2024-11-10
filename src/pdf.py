@@ -39,6 +39,7 @@ def extract_project_details_cr_pdf(text):
         model='command-r-plus-08-2024',
         prompt= prompt,
         temperature=0.7,
+        max_tokens=1500
 
     )
     
@@ -74,6 +75,7 @@ def generate_numbered_todo_list_pdf(text):
         model='command-r-plus-08-2024',
         prompt=prompt,
         temperature=0.7,
+        max_tokens=2000,
     )
 
     todo_list = response.generations[0].text.strip()
@@ -101,27 +103,29 @@ def save_numbered_todo_list_to_csv(todo_list, pdf_path):
 
     return csv_path
 
-# Process all PDFs in a folder
-def process_all_pdfs_in_folder(folder_path):
-    for file_name in os.listdir(folder_path):
-        if file_name.lower().endswith('.pdf'):
-            pdf_path = os.path.join(folder_path, file_name)
-            pdf_text = extract_text_from_pdf(pdf_path)
 
 
-            # Extract and save CR details
-            cr_details = extract_project_details_cr_pdf(pdf_text)
-            cr_json_path = save_json_to_file(cr_details, pdf_path)
-            print(f"CR details saved to {cr_json_path}")
+# Single PDF processing function
+def process_single_pdf(pdf_path):
+    # Extract text from the uploaded PDF file
+    pdf_text = extract_text_from_pdf(pdf_path)
 
-            # Generate and save To-Do list
-            todo_list = generate_numbered_todo_list_pdf(pdf_text)
-            csv_path = save_numbered_todo_list_to_csv(todo_list, pdf_path)
-            print(f"To-Do list saved to {csv_path}")
+    # Extract CR project details and save as JSON
+    cr_details = extract_project_details_cr_pdf(pdf_text)
+    cr_json_path = save_json_to_file(cr_details, pdf_path)
+    st.write(f"CR details saved to {cr_json_path}")
 
-                # Optionally display the extracted data and To-Do list in the UI
-            st.subheader(f"Extracted Details from {file_name}")
-            st.json(cr_details)
+    # Generate To-Do list and save as CSV
+    todo_list = generate_numbered_todo_list_pdf(pdf_text)
+    csv_path = save_numbered_todo_list_to_csv(todo_list, pdf_path)
+    st.write(f"To-Do list saved to {csv_path}")
 
-            st.subheader(f"Generated To-Do List from {file_name}")
-            st.write("\n".join(todo_list))
+    # Display extracted data and To-Do list in the UI
+    st.subheader("Extracted Project Details")
+    st.json(cr_details)
+
+    st.subheader("Generated To-Do List")
+    st.write("\n".join(todo_list))
+
+    # Return paths of saved files for download
+    return cr_json_path, csv_path
