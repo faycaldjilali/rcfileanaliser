@@ -119,7 +119,7 @@ if uploaded_pdf is not None:
     process_single_pdf(pdf_path)  # Make sure this function processes only the given file
     st.success("PDF file processed!")
             # Create database from JSON files
-    create_db_from_json_files(rc_file_location)
+    create_db_from_json_files(rc_file_location,database)
     db_path = os.path.join(rc_file_location, database)
     generate_project_fiche(db_path, rc_file_location)
     # Button to save and download PDF output
@@ -147,7 +147,7 @@ if uploaded_docx is not None:
     process_single_docx(docx_path)  # Make sure this function processes only the given file
     st.success("DOCX file processed!")
                 # Create database from JSON files
-    create_db_from_json_files(rc_file_location)
+    create_db_from_json_files(rc_file_location,database)
     db_path = os.path.join(rc_file_location, database)
     generate_project_fiche(db_path, rc_file_location)
     # Button to save and download DOCX output
